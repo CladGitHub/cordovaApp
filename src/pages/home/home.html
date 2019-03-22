@@ -1,17 +1,51 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>Home</ion-title>
-  </ion-navbar>
+  <ion-toolbar color="primary">
+    <ion-title>My RSI Search</ion-title>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-  <h2>Welcome to Ionic!</h2>
-  <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
-  </p>
-  <p>
-    Take a look at the <code>src/pages/</code> directory to add or change tabs,
-    update any existing page or create new pages.
-  </p>
+<ion-content>
+
+    <iframe
+    id="srg-player"
+    src="http://tp.srgssr.ch/p/rsi/inline?urn=urn:rsi:video:11553994"
+    width="100%"
+    height=200
+    frameborder="0"
+    allowfullscreen>
+  </iframe>
+
+  <ion-searchbar [(ngModel)]="searchTerm" (ionChange)="searchChanged($event)"></ion-searchbar>
+
+  <ion-item>
+    <ion-label>Select Searchtype</ion-label>
+    <ion-select [(ngModel)]="type" (ionChange)="searchChanged($event)">
+      <ion-option value="">All</ion-option>
+      <ion-option value="movie">Movie</ion-option>
+      <ion-option value="series">Series</ion-option>
+      <ion-option value="episode">Episode</ion-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-list>
+
+    <ion-item button *ngFor="let item of (results | async)" (click)="openWebsite(item.shortURL)">
+      
+      <ion-avatar slot="start">
+        <img [src]="item.picture.alternates['SQUARE_290']" *ngIf="item.picture != 'N/A'">
+      </ion-avatar>
+
+      <ion-label text-wrap>
+        <h3>{{ item.title }}</h3>
+        {{ item.subtitle }}
+      </ion-label>
+
+      <ion-icon slot="end" *ngIf="item.contentType == 'segmentedProgrammeVideo'" name="videocam"></ion-icon>
+      <ion-icon slot="end" *ngIf="item.contentType == 'story'" name="paper"></ion-icon>
+      <ion-icon slot="end" *ngIf="item.contentType == 'programmeVideo'" name="tv"></ion-icon>
+     
+    </ion-item>
+
+  </ion-list>
+
 </ion-content>
