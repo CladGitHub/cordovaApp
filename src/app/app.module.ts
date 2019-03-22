@@ -12,6 +12,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { RsisearchService } from '../providers/rsisearch/rsisearch';
 import { HttpClientModule } from '@angular/common/http';
+import { ProvidersGetJsonProvider } from '../providers/providers-get-json/providers-get-json';
+import { ProvidersAudioSearchProvider } from '../providers/providers-audio-search/providers-audio-search';
 
 
 @NgModule({
@@ -39,7 +41,9 @@ import { HttpClientModule } from '@angular/common/http';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-   RsisearchService
+   RsisearchService,
+    ProvidersGetJsonProvider,
+    ProvidersAudioSearchProvider
   ]
 })
 export class AppModule {}

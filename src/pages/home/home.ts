@@ -1,37 +1,27 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { SearchType, RsisearchService } from '../../providers/rsisearch/rsisearch';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { ProvidersAudioSearchProvider } from '../../providers/providers-audio-search/providers-audio-search';
 import { Observable } from 'rxjs';
 
+@IonicPage()
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html'
+  templateUrl: 'home.html',
 })
 export class HomePage {
 
   results: Observable<any>;
-  
-  searchTerm: string = '';
-  type: SearchType = SearchType.all;
-  information = null;
 
-  constructor(public navCtrl: NavController, private rsisearchService: RsisearchService) {
-
-  }
-  ngOnInit() { }
- 
-  searchChanged() {
-    // Call our service function which returns an Observable
-    this.results = this.rsisearchService.searchData(this.searchTerm, this.type);
-
-    this.results.subscribe(res => {
-      console.log('My results usando subscribe ', res);
-      //this.information = res.shortURL;
-    })
+  constructor(public navCtrl: NavController, public navParams: NavParams, private audioSearch: ProvidersAudioSearchProvider) {
   }
 
-  openWebsite( url : string) {
-    console.log("parte openWebsite");
-    window.open(url, '_blank');
+  searchInRG(word: string){
+		this.audioSearch.searchWord(word);
+		this.results = this.audioSearch.audioSearchResults;
+	}
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad RgsearchPage');
   }
+
 }
